@@ -1,0 +1,73 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Virtual Environments
+venv/
+env/
+ENV/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+*~
+.DS_Store
+
+# Output directories
+output_csv/
+output_parquet/
+output_data.sqlite
+behavioral_health_dashboard_data.xlsx
+
+# ETL/Pipeline
+etl/downloads/
+
+# Streamlit
+.streamlit/
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+*.log
+etl.log
+
+# OS
+Thumbs.db
+.DS_Store
+*.tmp
+
+# Old/deprecated files
+*.bat
+
+# GitHub upload cache (security)
+.github_token_cache
+.upload_hashes*.json
+github_upload.log
