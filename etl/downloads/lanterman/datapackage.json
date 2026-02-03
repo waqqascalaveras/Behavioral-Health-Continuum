@@ -1,0 +1,130 @@
+{
+  "accrual_periodicity": "annually",
+  "additional_limitations": "",
+  "citation": "",
+  "contact_email": "opendata@dhcs.ca.gov",
+  "data_collection_tool": "",
+  "data_license": "Terms of Use",
+  "de_identification_method": "http://www.dhcs.ca.gov/dataandstats/Pages/PublicReportingGuidelines.aspx",
+  "description": "Lanterman-Petris-Short (LPS) dataset contains the number of persons detained or admitted and treated involuntarily pursuant to several sections of the LPS Act in each county and stratified by data elements. This dataset also contains data elements for Senate Bill (SB) 929 and Senate Bill (SB) 43.",
+  "geo_coverage": "California",
+  "geographic_granularity": "county",
+  "keywords": [
+    "Behavioral Health",
+    "DHCS",
+    "LPS",
+    "Lanterman-Petris-Short Act"
+  ],
+  "limitations": "Limitations",
+  "name": "lanterman-petris-short-act-data",
+  "program_web_page": "https://www.dhcs.ca.gov",
+  "related_resources": "",
+  "resources": [
+    {
+      "description": "The LPS datasets contain the number of persons detained or admitted and treated involuntarily pursuant to several sections of the LPS Act (72H, 14d etc, number of persons transferred to mental health facilities pursuant to Section 4011.6 of the Penal Code, number of persons for whom temporary conservatorships are established, and number of persons for whom permanent conservatorships are established in each county and stratified by data elements. They are conditions for admission/detainment, clinical outcomes, payer information, waiting periods, sequential holds and demographic information including age group, gender identity, race, ethnicity, sexual orientation, sex, veteran status, housing status and primary language. This data is aggregated by county and reporting quarter.",
+      "format": "CSV",
+      "hash": "114db2d27202ee65eebc9bbd5c608b0b",
+      "name": "lanterman-petris-short-act-data",
+      "path": "lanterman-petris-short-act-data.csv",
+      "schema": {
+        "fields": [
+          {
+            "description": "Calendar year being reported.",
+            "name": "RPT_YEAR",
+            "title": "Report Year",
+            "type": "string"
+          },
+          {
+            "description": "Indicates the reporting county.",
+            "name": "COUNTY",
+            "title": "County",
+            "type": "string"
+          },
+          {
+            "description": "Indicate what hold type is being counted:\r\n* 72-Hour Admission\r\n* 72-Hour Detainment\r\n* 14-Day Intensive Treatment\r\n* Additional 14-Day Intensive Treatment\r\n* 30-Day Intensive Treatment\r\n* Additional 30-Day Intensive Treatment\r\n* 180-Day Post Certification Intensive Treatment\r\n* Transfer Pursuant to Penal Code (PC) 4011.6\r\n* Temporary Conservatorships\r\n* Permanent Conservatorships\r\n* All Hold types",
+            "name": "CATEGORY",
+            "title": "Category",
+            "type": "string"
+          },
+          {
+            "description": "Indicates what data element is being counted: \r\n* Condition\r\n* Age group\r\n* Gender Identity\r\n* Race\r\n* Ethnicity\r\n* Sexual Orientation\r\n* Sequential Hold\r\n* Sex\r\n* Veteran Status\r\n* Housing\r\n* Primary Language\r\n* Payer Information/Funding^ \r\n* Services Provided or Offered^ \r\n* Clinical Outcomes* \r\n* Waiting Period*\r\n* Reason for Waiting Period* \r\n* Source of Admission* \r\n* Grand Total*\r\n* County-contracted beds.",
+            "name": "AMOUNT_TYPE",
+            "title": "Amount Type",
+            "type": "string"
+          },
+          {
+            "description": "Indicate what category is being counted for the specific data element.",
+            "name": "AMOUNT_DESC",
+            "title": "Amount Description",
+            "type": "string"
+          },
+          {
+            "description": "Number of persons detained or admitted and treated involuntarily pursuant to several sections of the LPS Act, transferred to mental health facilities pursuant to Section 4011.6 of the Penal Code, for whom temporary conservatorships are established, and for whom permanent conservatorships are established/Number of beds.",
+            "name": "AMOUNT",
+            "title": "Amount",
+            "type": "string"
+          },
+          {
+            "description": "Data in this column will be populated if the corresponding column (num) is suppressed for values less than 11 (1) or suppressed as a complementary value to avoid backwards calculation (2).",
+            "name": "AMOUNT_ANNOT",
+            "title": "Amount Annotation",
+            "type": "string"
+          }
+        ]
+      },
+      "sources": [
+        {
+          "path": "https://data.chhs.ca.gov/dataset/1060e598-a5d4-4219-aff9-343e9a16b66b/resource/c8360118-c08e-4d01-a622-2797d3966622/download/lps-odp-template-070225.csv",
+          "title": "Lanterman-Petris-Short Act Data "
+        }
+      ],
+      "title": "Lanterman-Petris-Short Act Data "
+    },
+    {
+      "description": "Excel file tool use to read or visualize data.",
+      "format": "XLSX",
+      "hash": "ffa0556db8cfffd8b656da254cc81dfc",
+      "name": "lanterman-petris-short-act-toolkit",
+      "path": "lanterman-petris-short-act-toolkit.xlsx",
+      "schema": {
+        "fields": [
+          {
+            "name": "COUNTY",
+            "type": "string"
+          },
+          {
+            "name": "Number Admitted/Detained (1):",
+            "type": "string"
+          },
+          {
+            "name": "Number Admitted/Detained (2-5):",
+            "type": "string"
+          },
+          {
+            "name": "Number Admitted/Detained (6-8):",
+            "type": "string"
+          },
+          {
+            "name": "Number Admitted/Detained (8+):",
+            "type": "string"
+          }
+        ]
+      },
+      "sources": [
+        {
+          "path": "https://data.chhs.ca.gov/dataset/1060e598-a5d4-4219-aff9-343e9a16b66b/resource/403f39b2-d322-4ac5-81a8-acd76e6d7e0c/download/lps-toolkit-070225.xlsx",
+          "title": "Lanterman-Petris-Short Act Toolkit"
+        }
+      ],
+      "title": "Lanterman-Petris-Short Act Toolkit"
+    }
+  ],
+  "secondary_sources": "",
+  "sources": [
+    {
+      "name": "Program Data Reporting Division (PDRD)"
+    }
+  ],
+  "temporal_coverage": "2023 January 1st - Current",
+  "title": "Lanterman-Petris-Short Act Data"
+}

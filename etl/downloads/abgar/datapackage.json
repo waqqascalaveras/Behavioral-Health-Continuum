@@ -1,0 +1,266 @@
+{
+  "accrual_periodicity": "annually",
+  "additional_limitations": "",
+  "citation": "",
+  "contact_email": "opendata@dhcs.ca.gov",
+  "data_collection_tool": "",
+  "data_license": "Terms of Use",
+  "de_identification_method": "http://www.dhcs.ca.gov/dataandstats/Pages/PublicReportingGuidelines.aspx",
+  "description": "The Annual Beneficiary Grievance and Appeal Report Statewide Summary includes aggregate and county-specific totals of Specialty Mental Health Services (SMHS) Medi-Cal beneficiary grievances, appeals, expedited appeals by category, and Notices of Adverse Benefit Determinations (NOABD) issued by County Mental Health Plans (MHP). The report was compiled from data reported by each MHP that are used to compile the statewide summary.",
+  "geo_coverage": "California Statewide and by County",
+  "geographic_granularity": "county",
+  "keywords": [
+    "ABGAR",
+    "DHCS",
+    "MPH",
+    "SMHS"
+  ],
+  "limitations": "Limitations",
+  "name": "annual-beneficiary-grievance-and-appeal-report-abgar",
+  "program_web_page": "https://www.dhcs.ca.gov/services/Pages/Beneficiary_Problem_Resolution.aspx",
+  "related_resources": "",
+  "resources": [
+    {
+      "description": "This file contains statewide and county-specific appeal data reported by Mental Health Plans (MHP), sorted by Fiscal Year (FY), and category.",
+      "format": "CSV",
+      "hash": "72f07581920996d91b9f6edec0d5344a",
+      "name": "appeal-type-county-and-statewide",
+      "path": "appeal-type-county-and-statewide.csv",
+      "schema": {
+        "fields": [
+          {
+            "description": "Report Year being reported.  For example: FY1920 = Fiscal Year 2019/2020.",
+            "name": "Report Year",
+            "title": "Report Year",
+            "type": "string"
+          },
+          {
+            "description": "Indicates if the record is for a specific county or the entire CA State.",
+            "name": "Geography",
+            "title": "Population Type",
+            "type": "string"
+          },
+          {
+            "description": "Defines the Notice of Adverse Benefit Determination category.",
+            "name": "Notice of Adverse Benefit Determination Category",
+            "title": "Notice of Adverse Benefit Determination Category",
+            "type": "string"
+          },
+          {
+            "description": "Provides the count of appeal records.",
+            "name": "Appeal Count",
+            "title": "Appeal Count",
+            "type": "number"
+          },
+          {
+            "description": "Provides the count of appeals pending resolution as of June 30 for the reported Fiscal Year.",
+            "name": "Unresolved as of June 30",
+            "title": "Appeals Pending, Unresolved as of June 30",
+            "type": "number"
+          },
+          {
+            "description": "Provides the count of appeal decisions which the Mental Health Plan upheld.",
+            "name": "Decision Upheld",
+            "title": "Appeal Decision Upheld",
+            "type": "number"
+          },
+          {
+            "description": "Provides the count of appeal decisions which the Mental Health Plan overturned.",
+            "name": "Decision Overturned",
+            "title": "Appeal Decision Overturned",
+            "type": "number"
+          }
+        ]
+      },
+      "sources": [
+        {
+          "path": "https://data.chhs.ca.gov/dataset/8ec72871-4012-49cd-9ed6-1b6ebd7a77d1/resource/0199a099-b55b-4105-b775-a20ea2f2c918/download/appeals_11.22.21.csv",
+          "title": "Appeal Type – County and Statewide"
+        }
+      ],
+      "title": "Appeal Type – County and Statewide"
+    },
+    {
+      "description": "This file contains statewide and county-specific expedited appeals data reported by Mental Health Plans (MHP), sorted by Fiscal Year (FY), and category.",
+      "format": "CSV",
+      "hash": "5f50c81df4037b633bb5417b5ca3cc71",
+      "name": "expedited-appeal-type-county-and-statewide",
+      "path": "expedited-appeal-type-county-and-statewide.csv",
+      "schema": {
+        "fields": [
+          {
+            "description": "Report Year being reported.  For example: FY1920 = Fiscal Year 2019/2020.",
+            "name": "Report Year",
+            "title": "Report Year",
+            "type": "string"
+          },
+          {
+            "description": "Indicates if the record is for a specific county or the entire CA State.",
+            "name": "Geography",
+            "title": "Population Type",
+            "type": "string"
+          },
+          {
+            "description": "Defines the Notice of Adverse Benefit Determination category.",
+            "name": "Notice of Adverse Benefit Determination Category",
+            "title": "Notice of Adverse Benefit Determination Category",
+            "type": "string"
+          },
+          {
+            "description": "Provides the count of expedited appeal records.",
+            "name": "Expedited Appeal Count",
+            "title": "Expedited Appeal Count ",
+            "type": "number"
+          },
+          {
+            "description": "Provides the count of expedited appeals pending resolution as of June 30 for the reported Fiscal Year.",
+            "name": "Unresolved as of June 30",
+            "title": "Expedited Appeals Pending, Unresolved as of June 30",
+            "type": "number"
+          },
+          {
+            "description": "Provides the count of expedited appeal decisions which the Mental Health Plan upheld.",
+            "name": "Decision Upheld",
+            "title": "Expedited Appeal Decision Upheld",
+            "type": "number"
+          },
+          {
+            "description": "Provides the count of expedited appeal decisions which the Mental Health Plan overturned.",
+            "name": "Decision Overturned",
+            "title": "Expedited Appeal Decision Overturned",
+            "type": "number"
+          }
+        ]
+      },
+      "sources": [
+        {
+          "path": "https://data.chhs.ca.gov/dataset/8ec72871-4012-49cd-9ed6-1b6ebd7a77d1/resource/7a3d226d-6104-435f-96f7-6b2f740a67d5/download/expeditedappeals_11.22.21.csv",
+          "title": "Expedited Appeal Type – County and Statewide"
+        }
+      ],
+      "title": "Expedited Appeal Type – County and Statewide"
+    },
+    {
+      "description": "This file contains statewide and county-specific grievance data reported by Mental Health Plans (MHP), sorted by Fiscal Year (FY), category, and types.",
+      "format": "CSV",
+      "hash": "6df651cd89161e1ed98b5efa6b4eb0b6",
+      "name": "grievance-type-county-and-statewide",
+      "path": "grievance-type-county-and-statewide.csv",
+      "schema": {
+        "fields": [
+          {
+            "description": "Report Year being reported.  For example: FY1920 = Fiscal Year 2019/2020.",
+            "name": "Report Year",
+            "title": "Report Year",
+            "type": "string"
+          },
+          {
+            "description": "Indicates if the record is for a specific county or the entire CA State. ",
+            "name": "Geography",
+            "title": "Population Type",
+            "type": "string"
+          },
+          {
+            "description": "Defines the grievance category.",
+            "name": "Grievance Category",
+            "title": "Grievance Category",
+            "type": "string"
+          },
+          {
+            "description": "Defines the grievance type.",
+            "name": "Grievance Type",
+            "title": "Grievance Type",
+            "type": "string"
+          },
+          {
+            "description": "Provides the count of grievance records.",
+            "name": "Grievance Count",
+            "title": "Grievance Count",
+            "type": "number"
+          },
+          {
+            "description": "Provides the count of exempt grievance records.",
+            "name": "Exempt Grievance Count",
+            "title": "Exempt Grievance Count",
+            "type": "number"
+          },
+          {
+            "description": "Provides the count of grievances pending resolution as of June 30 for the reported Fiscal Year. ",
+            "name": "Unresolved as of June 30",
+            "title": "Grievances Pending, Unresolved as of June 30",
+            "type": "number"
+          },
+          {
+            "description": "Provides the count of grievances resolved. ",
+            "name": "Resolved",
+            "title": "Resolved",
+            "type": "number"
+          },
+          {
+            "description": "Provides the count of grievances referred to an agency or department outside the Mental Health Plans jurisdiction to resolve.",
+            "name": "Referred",
+            "title": "Referred",
+            "type": "number"
+          }
+        ]
+      },
+      "sources": [
+        {
+          "path": "https://data.chhs.ca.gov/dataset/8ec72871-4012-49cd-9ed6-1b6ebd7a77d1/resource/cadd54c3-7e7e-46dc-91f6-b484f2345a63/download/grievances-exemptgriev_11.22.21.csv",
+          "title": "Grievance Type – County and Statewide"
+        }
+      ],
+      "title": "Grievance Type – County and Statewide"
+    },
+    {
+      "description": "This file contains statewide and county-specific totals of Notice of Adverse Benefit Determination issued by Mental Health Plans (MHP) to Medi-Cal beneficiaries for Specialty Mental Health Services (SMHS), each Fiscal Year (FY).",
+      "format": "CSV",
+      "hash": "f8b5eaf6a6ef1319168ba3c1f725b200",
+      "name": "notice-of-adverse-benefit-determination-noabd-type-county-and-statewide",
+      "path": "notice-of-adverse-benefit-determination-noabd-type-county-and-statewide.csv",
+      "schema": {
+        "fields": [
+          {
+            "description": "Report Year being reported.  For example: FY1920 = Fiscal Year 2019/2020.",
+            "name": "Report Year",
+            "title": "Report Year",
+            "type": "string"
+          },
+          {
+            "description": "Indicates if the record is for a specific county or the entire CA State. ",
+            "name": "Geography",
+            "title": "Population Type",
+            "type": "string"
+          },
+          {
+            "description": "Defines the Notice of Adverse Benefit Determination category.",
+            "name": "Notice of Adverse Benefit Determination (NOABD) Category",
+            "title": "Notice of Adverse Benefit Determination (NOABD) Category",
+            "type": "string"
+          },
+          {
+            "description": "Provides the count of Notice of Adverse Benefit Determination (NOABD) issued.",
+            "name": "Notice of Adverse Benefit Determination (NOABD) Issued",
+            "title": "Notice of Adverse Benefit Determination (NOABD) Issued",
+            "type": "number"
+          }
+        ]
+      },
+      "sources": [
+        {
+          "path": "https://data.chhs.ca.gov/dataset/8ec72871-4012-49cd-9ed6-1b6ebd7a77d1/resource/80c5839d-851a-42f9-b68b-9da43244c623/download/noabd_11.22.21.csv",
+          "title": "Notice of Adverse Benefit Determination (NOABD) Type – County and Statewide"
+        }
+      ],
+      "title": "Notice of Adverse Benefit Determination (NOABD) Type – County and Statewide"
+    }
+  ],
+  "secondary_sources": "",
+  "sources": [
+    {
+      "name": "Medi-Cal Behavioral Health Division"
+    }
+  ],
+  "temporal_coverage": "July 1, 2018 – Current",
+  "title": "Annual Beneficiary Grievance and Appeal Report (ABGAR)"
+}

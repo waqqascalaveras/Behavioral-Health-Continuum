@@ -1,0 +1,122 @@
+{
+  "accrual_periodicity": "annually",
+  "additional_limitations": "",
+  "citation": "",
+  "contact_email": "OpenData@dhcs.ca.gov",
+  "data_collection_tool": "",
+  "data_license": "Terms of Use",
+  "de_identification_method": "http://www.dhcs.ca.gov/dataandstats/Pages/PublicReportingGuidelines.aspx",
+  "description": "Core Set Measures for Mental Health data includes a range of mental health and substance use-related quality measures that state Medicaid programs are required to report to the Centers for Medicare and Medicaid Services (CMS). These measures are part of CMS’s effort to improve behavioral health outcomes and are drawn from both the Child and Adult Core Sets. ",
+  "geo_coverage": "Statewide",
+  "geographic_granularity": "county",
+  "keywords": [
+    "AMM-AD",
+    "APP-CH",
+    "CSM",
+    "Core Set Measures",
+    "DHCS",
+    "FUH-AD",
+    "FUH-CH",
+    "Mental Health",
+    "SAA-AD"
+  ],
+  "limitations": "Limitations",
+  "name": "mh-core-set-measures",
+  "program_web_page": "https://www.dhcs.ca.gov/dataandstats/Pages/Core-Set-Measures-Reporting.aspx",
+  "related_resources": "",
+  "resources": [
+    {
+      "description": "Mental Health Core Set Measure data contains rates for Core Set Measures by county and year: AMM-AD, APP-CH, FUH-AD, FUH-CH, SAA-AD.",
+      "format": "CSV",
+      "hash": "80ce2dfabb5b2966016586df29170e23",
+      "name": "mental-health-core-set-measure-rates-by-county",
+      "path": "mental-health-core-set-measure-rates-by-county.csv",
+      "schema": {
+        "fields": [
+          {
+            "description": "Four-digit year representing the measurement year.\r\n\r\ne.g. \"2022\"",
+            "name": "Measure_Year",
+            "title": "Measure_Year",
+            "type": "string"
+          },
+          {
+            "description": "Core set measure denominator type.\r\n\r\n*  \"Core Set\" = denominator created from measure-eligible Medi-Cal population with no additional filtering.\r\n*  \"MHP\" = Core Set population with one or more specialty mental health services (SMHS) rendered in the measurement year. \r\n* “MCP”= Core Set population not identified as receiving SMHS in the measurement year.",
+            "name": "Type",
+            "title": "Type",
+            "type": "string"
+          },
+          {
+            "description": "Core set measure acronym.\r\n\r\ne.g. \"FUH-CH\"",
+            "name": "Measure",
+            "title": "Measure",
+            "type": "string"
+          },
+          {
+            "description": "Core set measure numerator type.\r\n\r\ne.g. 7-day or 30-day follow up, treatment phases",
+            "name": "Category",
+            "title": "Category",
+            "type": "string"
+          },
+          {
+            "description": "MHP County name or Statewide.\r\n\r\ne.g. \"Alameda\".  CA_Medi-Cal is the statewide rate for measure-eligible Medi-Cal members.",
+            "name": "Population",
+            "title": "Population",
+            "type": "string"
+          },
+          {
+            "description": "Number of members that met the numerator's measure specification.",
+            "name": "Numerator",
+            "title": "Numerator",
+            "type": "string"
+          },
+          {
+            "description": "Flag to indicate if data was suppressed or not.\r\n\r\n* \"1\" = data suppressed because value is between 1 - 10 members.\r\n* \"2\" = complementary data suppressed to prevent backwards calculation.",
+            "name": "Numerator_ANNOT",
+            "title": "Numerator_ANNOT",
+            "type": "string"
+          },
+          {
+            "description": "Number of members that were measure-eligible (met the denominator's measure specification).",
+            "name": "Denominator",
+            "title": "Denominator",
+            "type": "string"
+          },
+          {
+            "description": "Flag to indicate if data was suppressed or not.\r\n\r\n* \"1\" = data suppressed because value is between 1 - 10 members.\r\n* \"2\" = complementary data suppressed to prevent backwards calculation.",
+            "name": "Denominator_ANNOT",
+            "title": "Denominator_ANNOT",
+            "type": "string"
+          },
+          {
+            "description": "Population rate (numerator/denominator).\r\n\r\ne.g. \"70.5\"",
+            "name": "Rate",
+            "title": "Rate",
+            "type": "string"
+          },
+          {
+            "description": "Flag to indicate if data was suppressed or not.\r\n\r\n* \"1\" = data suppressed because value of numerator or denominator is between 1 - 10 members.\r\n* \"2\" = complementary data suppressed to prevent backwards calculation.",
+            "name": "Rate_ANNOT",
+            "title": "Rate_ANNOT",
+            "type": "string"
+          }
+        ]
+      },
+      "sources": [
+        {
+          "path": "https://data.chhs.ca.gov/dataset/874e4b73-e8a5-43fa-9558-c8ce5e2b456d/resource/45251828-0260-4537-8194-f26f23220801/download/coreset_report_my2020-2023_supp.csv",
+          "title": "Mental Health Core Set Measure Rates by County "
+        }
+      ],
+      "title": "Mental Health Core Set Measure Rates by County "
+    }
+  ],
+  "secondary_sources": "",
+  "sources": [
+    {
+      "name": "Data Analytics Division, Data Science Branch",
+      "web": "https://behavioralhealth-data.dhcs.ca.gov/"
+    }
+  ],
+  "temporal_coverage": "MY 2020 - 2023",
+  "title": "Core Set Measures for Mental Health"
+}

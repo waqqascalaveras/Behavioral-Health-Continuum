@@ -1,0 +1,145 @@
+{
+  "accrual_periodicity": "annually",
+  "additional_limitations": "",
+  "citation": "California Tobacco Control Program, California Department of Public Health. Adult Smoking Prevalence in California: California Behavioral Risk Factor Surveillance System, 1984-2019. Sacramento, CA: California Department of Public Health; 2020. https://data.chhs.ca.gov/. Accessed [DATE].  \r\n\r\nCalifornia Tobacco Control Program, California Department of Public Health. Adult Tobacco Use Prevalence in California: California Behavioral Risk Factor Surveillance System, 2016-2019. Sacramento, CA: California Department of Public Health; 2020. https://data.chhs.ca.gov/. Accessed [DATE].",
+  "contact_email": "opendata@cdph.ca.gov",
+  "data_collection_tool": "https://www.csus.edu/center/public-health-survey-research/project-brfss.html",
+  "data_license": "Terms of Use",
+  "de_identification_method": "",
+  "description": "This dataset contains two data files: 1) Adult cigarette use prevalence and 2) Adult tobacco use prevalence in California.  Tobacco use includes cigarettes, cigars, little cigars or cigarillos, pipe tobacco, smokeless tobacco (e.g. chew, snuff, snus), hookah, or electronic smoking devices (e.g. e-cigarettes, vape pens, pod mods). See the individual file description for more information on each data file.\r\n\r\nThe California Behavioral Risk Factor Surveillance System (BRFSS) is an on-going telephone survey of randomly selected adults, which collects information on a wide variety of health-related behaviors, including current cigarette and tobacco usage. Data are collected monthly from a random sample of the California population aged 18 years and older. The BRFSS has been conducted since 1984 by the California Department of Public Health in collaboration with the Centers for Disease Control and Prevention (CDC). ",
+  "geo_coverage": "California",
+  "geographic_granularity": "statewide",
+  "keywords": [
+    "chew",
+    "cigarettes",
+    "cigarillos",
+    "cigars",
+    "e-cigarettes",
+    "e-cigs",
+    "ecigs",
+    "electronic smoking device",
+    "hookah",
+    "pipe tobacco",
+    "pod mods",
+    "prevalence",
+    "smoking",
+    "snuff",
+    "snus",
+    "tcb",
+    "tcp",
+    "tobacco",
+    "vape",
+    "vape pens"
+  ],
+  "limitations": "Limitations",
+  "name": "adult-cigarette-and-tobacco-use-prevalence",
+  "program_web_page": "https://www.cdph.ca.gov/Programs/CCDPHP/DCDIC/CTCB/Pages/CaliforniaTobaccoControlBranch.aspx",
+  "related_resources": "",
+  "resources": [
+    {
+      "description": "The data table contains the adult smoking prevalence in California from the California Behavioral Risk Factor Surveillance System (BRFSS) since 1984. Current cigarette smoking is defined as having smoked at least 100 cigarettes lifetime and now smoking everyday or smoke some days. The percentage is also broken down by gender. Caution must be used when comparing the percentages of smokers over time as the definition of “current smoker” was broadened in 1996 and the survey methods were changed in 2012. Prior to 1996, the definition of current cigarettes smoking was having smoked at least 100 cigarettes in lifetime and smoking now. Due to the methodology change in 2012, the Centers for Disease Control and Prevention (CDC) does not recommend conducting analyses where estimates prior to 2011 are compared with analyses using the new methodology.",
+      "format": "CSV",
+      "hash": "17c152d7c882972e9b25421f71abdbca",
+      "name": "data-cigarette-use-prevalence-in-adults",
+      "path": "data-cigarette-use-prevalence-in-adults.csv",
+      "schema": {
+        "fields": [
+          {
+            "description": "Year in which survey took place.\r\n",
+            "name": "YEAR",
+            "type": "string"
+          },
+          {
+            "description": "Reason for the change in the time period for comparisons. Data between 1984 to 1995 will have the comparison time period of  \"Definition Expanded in 1996\" as the smoking definition was expanded in 1996. Data between 1996 to 2011 will have the comparison time period of \"Survey Methodology Changed in 2012\" due to BRFSS methodology changes. Data starting in 2012 to the present will have the comparison time period of \"Present\". For limitations on comparing data obtained with different methods, see documentation in the metadata. Caution should be used when comparing years between comparison groups. ",
+            "name": "COMPARISON",
+            "type": "string"
+          },
+          {
+            "description": "Gender of the survey respondents (e.g. male, female) or  total.",
+            "name": "GENDER",
+            "type": "string"
+          },
+          {
+            "description": "Percentage of survey respondents that are categorized as current smoker. Direct comparisons should only be made within the COMPARISON categories.",
+            "name": "PERCENT",
+            "type": "number"
+          },
+          {
+            "description": "Lower bound of the 95% confidence interval.",
+            "name": "LOWER95",
+            "type": "number"
+          },
+          {
+            "description": "Upper bound of the 95% confidence interval.",
+            "name": "UPPER95",
+            "type": "number"
+          }
+        ]
+      },
+      "sources": [
+        {
+          "path": "https://data.chhs.ca.gov/dataset/54344616-780e-4223-a253-e3baf8c76033/resource/85d7e0b3-40ec-4ddc-959b-a1a7aed97481/download/adult-smoking-prevalence.csv",
+          "title": "Data-Cigarette Use Prevalence in Adults"
+        }
+      ],
+      "title": "Data-Cigarette Use Prevalence in Adults"
+    },
+    {
+      "description": "The data table provides adult tobacco use prevalence rates in California from the California Behavioral Risk Factor Surveillance System (BRFSS) since 2016. Current tobacco use is based on current usage of cigarettes or electronic smoking devices (e.g. e-cigarettes, vape pens, pod mods) or having used cigars, little cigars or cigarillos, pipe tobacco, smokeless tobacco (e.g. chew, snuff, snus), or hookah in the past 30-days. The percentage is also broken down by gender and sexual identity, race, and low-income.",
+      "format": "CSV",
+      "hash": "ea46449d0ce93d467b2efcebf32872bc",
+      "name": "data-tobacco-use-prevalence-in-adults",
+      "path": "data-tobacco-use-prevalence-in-adults.csv",
+      "schema": {
+        "fields": [
+          {
+            "description": "Year in which survey took place.\r\n",
+            "name": "YEAR",
+            "type": "string"
+          },
+          {
+            "description": "Demographic characteristics of the survey respondents.\r\n",
+            "name": "DEMOGRAPHIC",
+            "type": "string"
+          },
+          {
+            "description": "Percentage of survey respondents that are categorized as current tobacco user.\r\n",
+            "name": "PERCENT",
+            "type": "string"
+          },
+          {
+            "description": "Standard error of the percent.\r\n",
+            "name": "SE",
+            "type": "string"
+          },
+          {
+            "description": "Lower bound of the 95% confidence interval.\r\n",
+            "name": "LOWER95",
+            "type": "string"
+          },
+          {
+            "description": "Upper bound of the 95% confidence interval.\r\n",
+            "name": "UPPER95",
+            "type": "string"
+          }
+        ]
+      },
+      "sources": [
+        {
+          "path": "https://data.chhs.ca.gov/dataset/54344616-780e-4223-a253-e3baf8c76033/resource/1e5ad4e6-a75a-454b-9801-d214695014e9/download/adult-tobacco-prevalence.csv",
+          "title": "Data-Tobacco Use Prevalence in Adults"
+        }
+      ],
+      "title": "Data-Tobacco Use Prevalence in Adults"
+    }
+  ],
+  "secondary_sources": "http://www.cdc.gov/brfss/",
+  "sources": [
+    {
+      "name": "California Tobacco Control Program",
+      "web": "https://www.cdph.ca.gov/Programs/CCDPHP/DCDIC/CTCB/Pages/CaliforniaTobaccoControlBranch.aspx"
+    }
+  ],
+  "temporal_coverage": "Cigarette Use: 1984-2019; Tobacco Use: 2016-2019",
+  "title": "Adult Cigarette and Tobacco Use Prevalence"
+}

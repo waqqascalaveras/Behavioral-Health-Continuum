@@ -1,0 +1,77 @@
+{
+  "accrual_periodicity": "monthly",
+  "additional_limitations": "",
+  "citation": "",
+  "contact_email": "opendata@dhcs.ca.gov",
+  "data_collection_tool": "",
+  "data_license": "Terms of Use",
+  "de_identification_method": "http://www.dhcs.ca.gov/dataandstats/Pages/PublicReportingGuidelines.aspx",
+  "description": "This dataset contains the total number of Medi-Cal Managed Care enrollees based on the reported month, plan type, county, and health plan.",
+  "geo_coverage": "Statewide",
+  "geographic_granularity": "county",
+  "keywords": [
+    "DHCS",
+    "Medi-Cal Enrollments",
+    "Medi-Cal Managed Care Enrollment eport"
+  ],
+  "limitations": "Limitations",
+  "name": "medi-cal-managed-care-enrollment-report",
+  "program_web_page": "http://www.dhcs.ca.gov/services/Pages/Medi-CalManagedCare.aspx",
+  "related_resources": "",
+  "resources": [
+    {
+      "description": "This dataset contains the total number of Medi-Cal Managed Care enrollees based on the reported month, plan type, county, and health plan.",
+      "format": "CSV",
+      "hash": "f72bf6b46a1124f2c1bb675bdbfc8a64",
+      "name": "medi-cal-managed-care-enrollment-report",
+      "path": "medi-cal-managed-care-enrollment-report.csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "Enrollment Month",
+            "type": "string"
+          },
+          {
+            "name": "Plan Type",
+            "type": "string"
+          },
+          {
+            "name": "County",
+            "type": "string"
+          },
+          {
+            "name": "Plan Name",
+            "type": "string"
+          },
+          {
+            "name": "Count of Enrollees",
+            "type": "string"
+          },
+          {
+            "name": "Count of Enrollees Annotation Code",
+            "type": "string"
+          },
+          {
+            "name": "Count of Enrollees Annotation Description",
+            "type": "string"
+          }
+        ]
+      },
+      "sources": [
+        {
+          "path": "https://data.chhs.ca.gov/dataset/c6ccef54-e7a9-4ebd-b79a-850b72c4dd8c/resource/95358a7a-2c9d-41c6-a0e0-405a7e5c5f18/download/open-data-portal-managed-care-enrollment-count-december-2025.csv",
+          "title": "Medi-Cal Managed Care Enrollment Report"
+        }
+      ],
+      "title": "Medi-Cal Managed Care Enrollment Report"
+    }
+  ],
+  "secondary_sources": "",
+  "sources": [
+    {
+      "name": "Medi-Cal Managed Care Operations Division / Research & Analytics Unit"
+    }
+  ],
+  "temporal_coverage": "January 2007 - Present",
+  "title": "Medi-Cal Managed Care Enrollment Report"
+}

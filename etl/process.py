@@ -1,0 +1,981 @@
+# etl/process.py
+"""
+Data processing, cleaning, and validation functions for ETL pipeline.
+"""
+
+from typing import Dict
+
+import pandas as pd
+import pandera.pandas as pa
+from pandera.pandas import DataFrameSchema, Column
+from rich.console import Console
+from rich.table import Table
+
+from .datasets import DATASET_PROCESSING
+from .logger import get_logger
+
+logger = get_logger('etl.process')
+console = Console()
+
+
+def validate_and_summarize(dfs: Dict[str, pd.DataFrame]) -> None:
+    """
+    Print/log summary stats and show pretty tables for each DataFrame.
+    """
+    for key, df in dfs.items():
+        logger.info(f"--- {key} ---")
+        logger.info(f"Rows: {len(df)} | Columns: {list(df.columns)}")
+        table = Table(title=f"{key} (first 5 rows)")
+        if not df.empty:
+            for col in df.columns:
+                table.add_column(str(col))
+            for _, row in df.head(5).iterrows():
+                table.add_row(*[str(x) for x in row.values])
+            missing = df.isnull().sum()
+            logger.info(f"Missing values:\n{missing}")
+            logger.info(f"Describe:\n{df.describe(include='all', datetime_is_numeric=True)}")
+        else:
+            logger.warning(f"{key} is empty!")
+            table.add_column("No data")
+            table.add_row("")
+        console.print(table)
+
+
+def _schemas() -> Dict[str, DataFrameSchema]:
+    return {
+        'behavioral_health_performance': DataFrameSchema({
+            'county': Column(str, nullable=True),
+        }, coerce=True),
+        'mhs_dashboard_adult': DataFrameSchema({
+            'county': Column(str, nullable=True),
+        }, coerce=True),
+        'mhs_dashboard_youth': DataFrameSchema({
+            'county': Column(str, nullable=True),
+        }, coerce=True),
+        'katie_a_specialty_mh': DataFrameSchema({
+            'county': Column(str, nullable=True),
+        }, coerce=True),
+        'mat_opioid_use_disorder': DataFrameSchema({
+            'county': Column(str, nullable=True),
+        }, coerce=True),
+        'narcotic_treatment_programs': DataFrameSchema({
+            'county': Column(str, nullable=True),
+        }, coerce=True),
+        'dui_provider_directory': DataFrameSchema({
+            'county': Column(str, nullable=True),
+        }, coerce=True),
+        'lanterman_petris_short': DataFrameSchema({
+            'county': Column(str, nullable=True),
+        }, coerce=True),
+        'crisis_service_utilization': DataFrameSchema({
+            'county': Column(str, nullable=True),
+        }, coerce=True),
+        'managed_care_enrollment': DataFrameSchema({
+            'county': Column(str, nullable=True),
+        }, coerce=True),
+        'certified_eligible_by_zip_sex': DataFrameSchema({
+            'zip_code': Column(str, nullable=True),
+        }, coerce=True),
+        'annual_renewals_by_county': DataFrameSchema({
+            'county': Column(str, nullable=True),
+        }, coerce=True),
+        'former_foster_youth_enrolled': DataFrameSchema({
+            'county': Column(str, nullable=True),
+        }, coerce=True),
+        'eligible_under_21': DataFrameSchema({
+            'county': Column(str, nullable=True),
+        }, coerce=True),
+        'ffs_providers_profile': DataFrameSchema({
+            'OBJECTID': Column(int, nullable=True),
+            'Provider_Source': Column(str, nullable=True),
+            'Provider_Number': Column(str, nullable=True),
+            'NPI': Column(str, nullable=True),
+            'Owner_Number': Column(str, nullable=True),
+            'Service_Location_Number': Column(str, nullable=True),
+            'Legal_Name': Column(str, nullable=True),
+            'Enroll_Status_Eff_DT': Column(str, nullable=True),
+            'Provider_Taxonomy': Column(str, nullable=True),
+            'NEMT_NMT_Provider_Type': Column(str, nullable=True),
+            'ANC_Provider_Type': Column(str, nullable=True),
+            'FI_Provider_Type_CD': Column(str, nullable=True),
+            'FI_Provider_Type': Column(str, nullable=True),
+            'Provider_License': Column(str, nullable=True),
+            'FI_Provider_Specialty_CD': Column(str, nullable=True),
+            'FI_Provider_Specialty': Column(str, nullable=True),
+            'Out_of_State_Indicator': Column(str, nullable=True),
+            'In_Out_State': Column(str, nullable=True),
+            'Address_Attention': Column(str, nullable=True),
+            'Address': Column(str, nullable=True),
+            'Address2': Column(str, nullable=True),
+            'City': Column(str, nullable=True),
+            'State': Column(str, nullable=True),
+            'ZIP': Column(str, nullable=True),
+            'ZIP_4': Column(str, nullable=True),
+            'DHCS_County_CD': Column(str, nullable=True),
+            'FIPS_County_CD': Column(str, nullable=True),
+            'County': Column(str, nullable=True),
+            'Phone_Number': Column(str, nullable=True),
+            'Medicaid_Patients': Column(str, nullable=True),
+            'CHIP_Patients': Column(str, nullable=True),
+            'Telehealth_Services': Column(str, nullable=True),
+            'Provider_Website': Column(str, nullable=True),
+            'Threshold_Languages': Column(str, nullable=True),
+            'Other_Languages': Column(str, nullable=True),
+            'Acc_Exam_Room': Column(str, nullable=True),
+            'Acc_Exterior_Building': Column(str, nullable=True),
+            'Acc_Interior_Building': Column(str, nullable=True),
+            'Acc_Parking': Column(str, nullable=True),
+            'Acc_Restroom': Column(str, nullable=True),
+            'Acc_Medical_Equipment': Column(str, nullable=True),
+            'Acc_Patient_Areas': Column(str, nullable=True),
+            'Acc_Patient_Diagnostic': Column(str, nullable=True),
+            'Latitude': Column(float, nullable=True),
+            'Longitude': Column(float, nullable=True),
+            'CountyName': Column(str, nullable=True),
+        }, coerce=True),
+        'acs_5yr_estimates': DataFrameSchema({
+            'Label': Column(str, nullable=True),
+            'Value': Column(float, nullable=True),
+            'County': Column(str, nullable=True),
+        }, coerce=True),
+        'sud_recovery_facilities': DataFrameSchema({
+            'OBJECTID': Column(int, nullable=True),
+            'County_Code': Column(str, nullable=True),
+            'Legal_Entity_Name': Column(str, nullable=True),
+            'Facility_Name': Column(str, nullable=True),
+            'Facility_City': Column(str, nullable=True),
+            'Facility_State': Column(str, nullable=True),
+            'Facility_Zip': Column(str, nullable=True),
+            'Type_of_Application': Column(str, nullable=True),
+            'Program_Code': Column(str, nullable=True),
+            'Treatment_Capacity': Column(int, nullable=True),
+            'Total_Capacity': Column(int, nullable=True),
+            'Expiration_Date': Column(str, nullable=True),
+            'Target_Population': Column(str, nullable=True),
+            'Incident_Medical_Services': Column(str, nullable=True),
+            'Adolescent_Waiver': Column(str, nullable=True),
+            'Latitude': Column(float, nullable=True),
+            'Longitude': Column(float, nullable=True),
+            'CountyName': Column(str, nullable=True),
+        }, coerce=True),
+        'sud_recovery_facilities_geojson': DataFrameSchema({
+            'OBJECTID': Column(int, nullable=True),
+            'County_Code': Column(str, nullable=True),
+            'Legal_Entity_Name': Column(str, nullable=True),
+            'Facility_Name': Column(str, nullable=True),
+            'Facility_City': Column(str, nullable=True),
+            'Facility_State': Column(str, nullable=True),
+            'Facility_Zip': Column(str, nullable=True),
+            'Type_of_Application': Column(str, nullable=True),
+            'Program_Code': Column(str, nullable=True),
+            'Treatment_Capacity': Column(int, nullable=True),
+            'Total_Capacity': Column(int, nullable=True),
+            'Expiration_Date': Column(str, nullable=True),
+            'Target_Population': Column(str, nullable=True),
+            'Incident_Medical_Services': Column(str, nullable=True),
+            'Adolescent_Waiver': Column(str, nullable=True),
+            'Latitude': Column(float, nullable=True),
+            'Longitude': Column(float, nullable=True),
+            'CountyName': Column(str, nullable=True),
+        }, coerce=True),
+        'foster_care_entries_exits': DataFrameSchema({
+            'Measure number': Column(str, nullable=True),
+            'Measure description': Column(str, nullable=True),
+            'Most recent start date': Column(str, nullable=True),
+            'Most recent end date': Column(str, nullable=True),
+            'Most recent numerator': Column(int, nullable=True),
+            'Most recent denominator': Column(int, nullable=True),
+            'Most recent performance': Column(float, nullable=True),
+            'National performance or goal': Column(str, nullable=True),
+            'Desired direction': Column(str, nullable=True),
+            'Actual \none-year direction': Column(str, nullable=True),
+            'One-year percent change': Column(float, nullable=True),
+            'External Links to CCWIP Online Reports': Column(str, nullable=True),
+        }, coerce=True),
+        'nsduh': DataFrameSchema({
+            # RData: schema not implemented, recommend pyreadr
+        }),
+    }
+
+
+def process_all(dfs: Dict[str, pd.DataFrame]) -> Dict[str, pd.DataFrame]:
+    """
+    Standardize, clean, and validate datasets.
+    """
+    schemas = _schemas()
+
+    for key, df in dfs.items():
+        # Standardize county column if present
+        if 'county' in df.columns:
+            df['county'] = df['county'].astype(str).str.title()
+        if 'CountyName' in df.columns:
+            df['CountyName'] = df['CountyName'].astype(str).str.title()
+
+        # Standardize zip codes
+        if 'zip_code' in df.columns:
+            df['zip_code'] = df['zip_code'].astype(str).str.zfill(5)
+        if 'Facility_Zip' in df.columns:
+            df['Facility_Zip'] = pd.to_numeric(df['Facility_Zip'], errors='coerce').apply(
+                lambda x: str(int(x)).zfill(5) if pd.notna(x) else None
+            )
+        if 'ZIP' in df.columns:
+            df['ZIP'] = pd.to_numeric(df['ZIP'], errors='coerce').apply(
+                lambda x: str(int(x)).zfill(5) if pd.notna(x) else None
+            )
+
+        # Standardize latitude/longitude
+        if 'Latitude' in df.columns:
+            df['Latitude'] = pd.to_numeric(df['Latitude'], errors='coerce')
+        if 'Longitude' in df.columns:
+            df['Longitude'] = pd.to_numeric(df['Longitude'], errors='coerce')
+
+        # Clean FFS provider listing
+        if key == 'ffs_providers_profile':
+            if 'County' in df.columns:
+                df['County'] = df['County'].astype(str).str.title()
+            if 'CountyName' in df.columns:
+                df['CountyName'] = df['CountyName'].astype(str).str.title()
+            if 'City' in df.columns:
+                df['City'] = df['City'].astype(str).str.title()
+            if 'ZIP_4' in df.columns:
+                df['ZIP_4'] = pd.to_numeric(df['ZIP_4'], errors='coerce').apply(
+                    lambda x: str(int(x)).zfill(4) if pd.notna(x) else None
+                )
+            if 'Phone_Number' in df.columns:
+                df['Phone_Number'] = pd.to_numeric(df['Phone_Number'], errors='coerce').apply(
+                    lambda x: str(int(x)) if pd.notna(x) else None
+                )
+            if 'Enroll_Status_Eff_DT' in df.columns:
+                df['Enroll_Status_Eff_DT'] = pd.to_datetime(df['Enroll_Status_Eff_DT'], errors='coerce')
+
+        # Clean Census Decennial P1 (Calaveras County)
+        if key == 'acs_5yr_estimates':
+            if len(df.columns) >= 2:
+                label_col = df.columns[0]
+                value_col = df.columns[1]
+                county_name = str(value_col).split(',')[0].strip()
+                df = df.rename(columns={label_col: 'Label', value_col: 'Value'})
+                df['Value'] = df['Value'].astype(str).str.replace(',', '', regex=False)
+                df['Value'] = pd.to_numeric(df['Value'], errors='coerce')
+                df['County'] = county_name
+                df = df[df['Label'].notna()]
+
+        # Clean CFSR4 (CWSOutcomes)
+        if key == 'foster_care_entries_exits':
+            if 'Measure number' not in df.columns:
+                header_row = None
+                for idx, row in df.iterrows():
+                    if row.astype(str).str.contains('Measure number', case=False, na=False).any():
+                        header_row = idx
+                        break
+                if header_row is not None:
+                    df.columns = df.loc[header_row]
+                    df = df.loc[header_row + 1:].reset_index(drop=True)
+            if 'Most recent numerator' in df.columns:
+                df['Most recent numerator'] = pd.to_numeric(df['Most recent numerator'], errors='coerce')
+            if 'Most recent denominator' in df.columns:
+                df['Most recent denominator'] = pd.to_numeric(df['Most recent denominator'], errors='coerce')
+            if 'Most recent performance' in df.columns:
+                df['Most recent performance'] = pd.to_numeric(df['Most recent performance'], errors='coerce')
+
+        # Clean SUD Recovery facilities
+        if key in ('sud_recovery_facilities', 'sud_recovery_facilities_geojson'):
+            if 'County_Code' in df.columns:
+                df['County_Code'] = pd.to_numeric(df['County_Code'], errors='coerce').apply(
+                    lambda x: str(int(x)).zfill(2) if pd.notna(x) else None
+                )
+            if 'Expiration_Date' in df.columns:
+                df['Expiration_Date'] = pd.to_datetime(df['Expiration_Date'], errors='coerce')
+            if 'Facility_City' in df.columns:
+                df['Facility_City'] = df['Facility_City'].astype(str).str.title()
+            if 'CountyName' in df.columns:
+                df['CountyName'] = df['CountyName'].astype(str).str.title()
+
+        # Feature engineering examples
+        if key == 'sud_recovery_facilities':
+            if 'Treatment_Capacity' in df.columns and 'Total_Capacity' in df.columns:
+                df['Capacity_Utilization'] = (df['Treatment_Capacity'] / df['Total_Capacity']).round(2)
+            if 'Expiration_Date' in df.columns:
+                df['Expiration_Year'] = df['Expiration_Date'].dt.year
+            if 'Total_Capacity' in df.columns:
+                df['Large_Facility'] = df['Total_Capacity'] > 50
+
+        if key == 'foster_care_entries_exits':
+            if 'Most recent numerator' in df.columns and 'Most recent denominator' in df.columns:
+                df['Rate'] = (df['Most recent numerator'] / df['Most recent denominator']).round(4)
+            if 'One-year percent change' in df.columns:
+                df['OneYearChangeFlag'] = df['One-year percent change'].apply(lambda x: abs(x) > 0.05)
+
+        # Validate with schema if available
+        if key in schemas:
+            try:
+                df = schemas[key].validate(df, lazy=True)
+            except pa.errors.SchemaErrors as e:
+                logger.error(f"Schema validation failed for {key}: {e.failure_cases}")
+
+        # Dataset-specific processing hooks
+        if key in DATASET_PROCESSING:
+            notes = DATASET_PROCESSING[key].get('notes', '')
+            logger.info(f"Processing notes for {key}: {notes}")
+
+        dfs[key] = df
+
+    return dfs# etl/process.py
+"""
+Data processing, cleaning, and validation functions for ETL pipeline.
+"""
+
+from typing import Dict
+
+import pandas as pd
+import pandera as pa
+from pandera import DataFrameSchema, Column
+from rich.console import Console
+from rich.table import Table
+
+from .datasets import DATASET_PROCESSING
+from .logger import get_logger
+
+logger = get_logger('etl.process')
+console = Console()
+
+
+def validate_and_summarize(dfs: Dict[str, pd.DataFrame]) -> None:
+    """
+    Print/log summary stats and show pretty tables for each DataFrame.
+    """
+    for key, df in dfs.items():
+        logger.info(f"--- {key} ---")
+        logger.info(f"Rows: {len(df)} | Columns: {list(df.columns)}")
+        table = Table(title=f"{key} (first 5 rows)")
+        if not df.empty:
+            for col in df.columns:
+                table.add_column(str(col))
+            for _, row in df.head(5).iterrows():
+                table.add_row(*[str(x) for x in row.values])
+            missing = df.isnull().sum()
+            logger.info(f"Missing values:\n{missing}")
+            logger.info(f"Describe:\n{df.describe(include='all', datetime_is_numeric=True)}")
+        else:
+            logger.warning(f"{key} is empty!")
+            table.add_column("No data")
+            table.add_row("")
+        console.print(table)
+
+
+def _schemas() -> Dict[str, DataFrameSchema]:
+    return {
+        'behavioral_health_performance': DataFrameSchema({
+            'county': Column(str, nullable=True),
+        }, coerce=True),
+        'mhs_dashboard_adult': DataFrameSchema({
+            'county': Column(str, nullable=True),
+        }, coerce=True),
+        'mhs_dashboard_youth': DataFrameSchema({
+            'county': Column(str, nullable=True),
+        }, coerce=True),
+        'katie_a_specialty_mh': DataFrameSchema({
+            'county': Column(str, nullable=True),
+        }, coerce=True),
+        'mat_opioid_use_disorder': DataFrameSchema({
+            'county': Column(str, nullable=True),
+        }, coerce=True),
+        'narcotic_treatment_programs': DataFrameSchema({
+            'county': Column(str, nullable=True),
+        }, coerce=True),
+        'dui_provider_directory': DataFrameSchema({
+            'county': Column(str, nullable=True),
+        }, coerce=True),
+        'lanterman_petris_short': DataFrameSchema({
+            'county': Column(str, nullable=True),
+        }, coerce=True),
+        'crisis_service_utilization': DataFrameSchema({
+            'county': Column(str, nullable=True),
+        }, coerce=True),
+        'managed_care_enrollment': DataFrameSchema({
+            'county': Column(str, nullable=True),
+        }, coerce=True),
+        'certified_eligible_by_zip_sex': DataFrameSchema({
+            'zip_code': Column(str, nullable=True),
+        }, coerce=True),
+        'annual_renewals_by_county': DataFrameSchema({
+            'county': Column(str, nullable=True),
+        }, coerce=True),
+        'former_foster_youth_enrolled': DataFrameSchema({
+            'county': Column(str, nullable=True),
+        }, coerce=True),
+        'eligible_under_21': DataFrameSchema({
+            'county': Column(str, nullable=True),
+        }, coerce=True),
+        'ffs_providers_profile': DataFrameSchema({
+            'OBJECTID': Column(int, nullable=True),
+            'Provider_Source': Column(str, nullable=True),
+            'Provider_Number': Column(str, nullable=True),
+            'NPI': Column(str, nullable=True),
+            'Owner_Number': Column(str, nullable=True),
+            'Service_Location_Number': Column(str, nullable=True),
+            'Legal_Name': Column(str, nullable=True),
+            'Enroll_Status_Eff_DT': Column(str, nullable=True),
+            'Provider_Taxonomy': Column(str, nullable=True),
+            'NEMT_NMT_Provider_Type': Column(str, nullable=True),
+            'ANC_Provider_Type': Column(str, nullable=True),
+            'FI_Provider_Type_CD': Column(str, nullable=True),
+            'FI_Provider_Type': Column(str, nullable=True),
+            'Provider_License': Column(str, nullable=True),
+            'FI_Provider_Specialty_CD': Column(str, nullable=True),
+            'FI_Provider_Specialty': Column(str, nullable=True),
+            'Out_of_State_Indicator': Column(str, nullable=True),
+            'In_Out_State': Column(str, nullable=True),
+            'Address_Attention': Column(str, nullable=True),
+            'Address': Column(str, nullable=True),
+            'Address2': Column(str, nullable=True),
+            'City': Column(str, nullable=True),
+            'State': Column(str, nullable=True),
+            'ZIP': Column(str, nullable=True),
+            'ZIP_4': Column(str, nullable=True),
+            'DHCS_County_CD': Column(str, nullable=True),
+            'FIPS_County_CD': Column(str, nullable=True),
+            'County': Column(str, nullable=True),
+            'Phone_Number': Column(str, nullable=True),
+            'Medicaid_Patients': Column(str, nullable=True),
+            'CHIP_Patients': Column(str, nullable=True),
+            'Telehealth_Services': Column(str, nullable=True),
+            'Provider_Website': Column(str, nullable=True),
+            'Threshold_Languages': Column(str, nullable=True),
+            'Other_Languages': Column(str, nullable=True),
+            'Acc_Exam_Room': Column(str, nullable=True),
+            'Acc_Exterior_Building': Column(str, nullable=True),
+            'Acc_Interior_Building': Column(str, nullable=True),
+            'Acc_Parking': Column(str, nullable=True),
+            'Acc_Restroom': Column(str, nullable=True),
+            'Acc_Medical_Equipment': Column(str, nullable=True),
+            'Acc_Patient_Areas': Column(str, nullable=True),
+            'Acc_Patient_Diagnostic': Column(str, nullable=True),
+            'Latitude': Column(float, nullable=True),
+            'Longitude': Column(float, nullable=True),
+            'CountyName': Column(str, nullable=True),
+        }, coerce=True),
+        'acs_5yr_estimates': DataFrameSchema({
+            'Label': Column(str, nullable=True),
+            'Value': Column(float, nullable=True),
+            'County': Column(str, nullable=True),
+        }, coerce=True),
+        'sud_recovery_facilities': DataFrameSchema({
+            'OBJECTID': Column(int, nullable=True),
+            'County_Code': Column(str, nullable=True),
+            'Legal_Entity_Name': Column(str, nullable=True),
+            'Facility_Name': Column(str, nullable=True),
+            'Facility_City': Column(str, nullable=True),
+            'Facility_State': Column(str, nullable=True),
+            'Facility_Zip': Column(str, nullable=True),
+            'Type_of_Application': Column(str, nullable=True),
+            'Program_Code': Column(str, nullable=True),
+            'Treatment_Capacity': Column(int, nullable=True),
+            'Total_Capacity': Column(int, nullable=True),
+            'Expiration_Date': Column(str, nullable=True),
+            'Target_Population': Column(str, nullable=True),
+            'Incident_Medical_Services': Column(str, nullable=True),
+            'Adolescent_Waiver': Column(str, nullable=True),
+            'Latitude': Column(float, nullable=True),
+            'Longitude': Column(float, nullable=True),
+            'CountyName': Column(str, nullable=True),
+        }, coerce=True),
+        'sud_recovery_facilities_geojson': DataFrameSchema({
+            'OBJECTID': Column(int, nullable=True),
+            'County_Code': Column(str, nullable=True),
+            'Legal_Entity_Name': Column(str, nullable=True),
+            'Facility_Name': Column(str, nullable=True),
+            'Facility_City': Column(str, nullable=True),
+            'Facility_State': Column(str, nullable=True),
+            'Facility_Zip': Column(str, nullable=True),
+            'Type_of_Application': Column(str, nullable=True),
+            'Program_Code': Column(str, nullable=True),
+            'Treatment_Capacity': Column(int, nullable=True),
+            'Total_Capacity': Column(int, nullable=True),
+            'Expiration_Date': Column(str, nullable=True),
+            'Target_Population': Column(str, nullable=True),
+            'Incident_Medical_Services': Column(str, nullable=True),
+            'Adolescent_Waiver': Column(str, nullable=True),
+            'Latitude': Column(float, nullable=True),
+            'Longitude': Column(float, nullable=True),
+            'CountyName': Column(str, nullable=True),
+        }, coerce=True),
+        'foster_care_entries_exits': DataFrameSchema({
+            'Measure number': Column(str, nullable=True),
+            'Measure description': Column(str, nullable=True),
+            'Most recent start date': Column(str, nullable=True),
+            'Most recent end date': Column(str, nullable=True),
+            'Most recent numerator': Column(int, nullable=True),
+            'Most recent denominator': Column(int, nullable=True),
+            'Most recent performance': Column(float, nullable=True),
+            'National performance or goal': Column(str, nullable=True),
+            'Desired direction': Column(str, nullable=True),
+            'Actual \none-year direction': Column(str, nullable=True),
+            'One-year percent change': Column(float, nullable=True),
+            'External Links to CCWIP Online Reports': Column(str, nullable=True),
+        }, coerce=True),
+        'nsduh': DataFrameSchema({
+            # RData: schema not implemented, recommend pyreadr
+        }),
+    }
+
+
+def process_all(dfs: Dict[str, pd.DataFrame]) -> Dict[str, pd.DataFrame]:
+    """
+    Standardize, clean, and validate datasets.
+    """
+    schemas = _schemas()
+
+    for key, df in dfs.items():
+        # Standardize county column if present
+        if 'county' in df.columns:
+            df['county'] = df['county'].astype(str).str.title()
+        if 'CountyName' in df.columns:
+            df['CountyName'] = df['CountyName'].astype(str).str.title()
+
+        # Standardize zip codes
+        if 'zip_code' in df.columns:
+            df['zip_code'] = df['zip_code'].astype(str).str.zfill(5)
+        if 'Facility_Zip' in df.columns:
+            df['Facility_Zip'] = pd.to_numeric(df['Facility_Zip'], errors='coerce').apply(
+                lambda x: str(int(x)).zfill(5) if pd.notna(x) else None
+            )
+        if 'ZIP' in df.columns:
+            df['ZIP'] = pd.to_numeric(df['ZIP'], errors='coerce').apply(
+                lambda x: str(int(x)).zfill(5) if pd.notna(x) else None
+            )
+
+        # Standardize latitude/longitude
+        if 'Latitude' in df.columns:
+            df['Latitude'] = pd.to_numeric(df['Latitude'], errors='coerce')
+        if 'Longitude' in df.columns:
+            df['Longitude'] = pd.to_numeric(df['Longitude'], errors='coerce')
+
+        # Clean FFS provider listing
+        if key == 'ffs_providers_profile':
+            if 'County' in df.columns:
+                df['County'] = df['County'].astype(str).str.title()
+            if 'CountyName' in df.columns:
+                df['CountyName'] = df['CountyName'].astype(str).str.title()
+            if 'City' in df.columns:
+                df['City'] = df['City'].astype(str).str.title()
+            if 'ZIP_4' in df.columns:
+                df['ZIP_4'] = pd.to_numeric(df['ZIP_4'], errors='coerce').apply(
+                    lambda x: str(int(x)).zfill(4) if pd.notna(x) else None
+                )
+            if 'Phone_Number' in df.columns:
+                df['Phone_Number'] = pd.to_numeric(df['Phone_Number'], errors='coerce').apply(
+                    lambda x: str(int(x)) if pd.notna(x) else None
+                )
+            if 'Enroll_Status_Eff_DT' in df.columns:
+                df['Enroll_Status_Eff_DT'] = pd.to_datetime(df['Enroll_Status_Eff_DT'], errors='coerce')
+
+        # Clean Census Decennial P1 (Calaveras County)
+        if key == 'acs_5yr_estimates':
+            if len(df.columns) >= 2:
+                label_col = df.columns[0]
+                value_col = df.columns[1]
+                county_name = str(value_col).split(',')[0].strip()
+                df = df.rename(columns={label_col: 'Label', value_col: 'Value'})
+                df['Value'] = df['Value'].astype(str).str.replace(',', '', regex=False)
+                df['Value'] = pd.to_numeric(df['Value'], errors='coerce')
+                df['County'] = county_name
+                df = df[df['Label'].notna()]
+
+        # Clean CFSR4 (CWSOutcomes)
+        if key == 'foster_care_entries_exits':
+            if 'Measure number' not in df.columns:
+                header_row = None
+                for idx, row in df.iterrows():
+                    if row.astype(str).str.contains('Measure number', case=False, na=False).any():
+                        header_row = idx
+                        break
+                if header_row is not None:
+                    df.columns = df.loc[header_row]
+                    df = df.loc[header_row + 1:].reset_index(drop=True)
+            if 'Most recent numerator' in df.columns:
+                df['Most recent numerator'] = pd.to_numeric(df['Most recent numerator'], errors='coerce')
+            if 'Most recent denominator' in df.columns:
+                df['Most recent denominator'] = pd.to_numeric(df['Most recent denominator'], errors='coerce')
+            if 'Most recent performance' in df.columns:
+                df['Most recent performance'] = pd.to_numeric(df['Most recent performance'], errors='coerce')
+
+        # Clean SUD Recovery facilities
+        if key in ('sud_recovery_facilities', 'sud_recovery_facilities_geojson'):
+            if 'County_Code' in df.columns:
+                df['County_Code'] = pd.to_numeric(df['County_Code'], errors='coerce').apply(
+                    lambda x: str(int(x)).zfill(2) if pd.notna(x) else None
+                )
+            if 'Expiration_Date' in df.columns:
+                df['Expiration_Date'] = pd.to_datetime(df['Expiration_Date'], errors='coerce')
+            if 'Facility_City' in df.columns:
+                df['Facility_City'] = df['Facility_City'].astype(str).str.title()
+            if 'CountyName' in df.columns:
+                df['CountyName'] = df['CountyName'].astype(str).str.title()
+
+        # Feature engineering examples
+        if key == 'sud_recovery_facilities':
+            if 'Treatment_Capacity' in df.columns and 'Total_Capacity' in df.columns:
+                df['Capacity_Utilization'] = (df['Treatment_Capacity'] / df['Total_Capacity']).round(2)
+            if 'Expiration_Date' in df.columns:
+                df['Expiration_Year'] = df['Expiration_Date'].dt.year
+            if 'Total_Capacity' in df.columns:
+                df['Large_Facility'] = df['Total_Capacity'] > 50
+
+        if key == 'foster_care_entries_exits':
+            if 'Most recent numerator' in df.columns and 'Most recent denominator' in df.columns:
+                df['Rate'] = (df['Most recent numerator'] / df['Most recent denominator']).round(4)
+            if 'One-year percent change' in df.columns:
+                df['OneYearChangeFlag'] = df['One-year percent change'].apply(lambda x: abs(x) > 0.05)
+
+        # Validate with schema if available
+        if key in schemas:
+            try:
+                df = schemas[key].validate(df, lazy=True)
+            except pa.errors.SchemaErrors as e:
+                logger.error(f"Schema validation failed for {key}: {e.failure_cases}")
+
+        # Dataset-specific processing hooks
+        if key in DATASET_PROCESSING:
+            notes = DATASET_PROCESSING[key].get('notes', '')
+            logger.info(f"Processing notes for {key}: {notes}")
+
+        dfs[key] = df
+
+    return dfs# etl/process.py
+"""
+Data processing, cleaning, and validation functions for ETL pipeline.
+"""
+
+
+        dfs[key] = df
+    return dfs
+        }, coerce=True),
+        'mat_opioid_use_disorder': DataFrameSchema({
+            'county': Column(str, nullable=True),
+        }, coerce=True),
+        'narcotic_treatment_programs': DataFrameSchema({
+            'county': Column(str, nullable=True),
+        }, coerce=True),
+        'dui_provider_directory': DataFrameSchema({
+            'county': Column(str, nullable=True),
+        }, coerce=True),
+        'lanterman_petris_short': DataFrameSchema({
+            'county': Column(str, nullable=True),
+        }, coerce=True),
+        'crisis_service_utilization': DataFrameSchema({
+            'county': Column(str, nullable=True),
+        }, coerce=True),
+        'managed_care_enrollment': DataFrameSchema({
+            'county': Column(str, nullable=True),
+        }, coerce=True),
+        'certified_eligible_by_zip_sex': DataFrameSchema({
+            'zip_code': Column(str, nullable=True),
+        }, coerce=True),
+        'annual_renewals_by_county': DataFrameSchema({
+            'county': Column(str, nullable=True),
+        }, coerce=True),
+        'former_foster_youth_enrolled': DataFrameSchema({
+            'county': Column(str, nullable=True),
+        }, coerce=True),
+        'eligible_under_21': DataFrameSchema({
+            'county': Column(str, nullable=True),
+        }, coerce=True),
+        'ffs_providers_profile': DataFrameSchema({
+            'OBJECTID': Column(int, nullable=True),
+            'Provider_Source': Column(str, nullable=True),
+            'Provider_Number': Column(str, nullable=True),
+            'NPI': Column(str, nullable=True),
+            'Owner_Number': Column(str, nullable=True),
+            'Service_Location_Number': Column(str, nullable=True),
+            'Legal_Name': Column(str, nullable=True),
+            'Enroll_Status_Eff_DT': Column(str, nullable=True),
+            'Provider_Taxonomy': Column(str, nullable=True),
+            'NEMT_NMT_Provider_Type': Column(str, nullable=True),
+            'ANC_Provider_Type': Column(str, nullable=True),
+            'FI_Provider_Type_CD': Column(str, nullable=True),
+            'FI_Provider_Type': Column(str, nullable=True),
+            'Provider_License': Column(str, nullable=True),
+            'FI_Provider_Specialty_CD': Column(str, nullable=True),
+            'FI_Provider_Specialty': Column(str, nullable=True),
+            'Out_of_State_Indicator': Column(str, nullable=True),
+            'In_Out_State': Column(str, nullable=True),
+            'Address_Attention': Column(str, nullable=True),
+            'Address': Column(str, nullable=True),
+            'Address2': Column(str, nullable=True),
+            'City': Column(str, nullable=True),
+            'State': Column(str, nullable=True),
+            'ZIP': Column(str, nullable=True),
+            'ZIP_4': Column(str, nullable=True),
+            'DHCS_County_CD': Column(str, nullable=True),
+            'FIPS_County_CD': Column(str, nullable=True),
+            'County': Column(str, nullable=True),
+            'Phone_Number': Column(str, nullable=True),
+            'Medicaid_Patients': Column(str, nullable=True),
+            'CHIP_Patients': Column(str, nullable=True),
+            'Telehealth_Services': Column(str, nullable=True),
+            'Provider_Website': Column(str, nullable=True),
+            'Threshold_Languages': Column(str, nullable=True),
+            'Other_Languages': Column(str, nullable=True),
+            'Acc_Exam_Room': Column(str, nullable=True),
+            'Acc_Exterior_Building': Column(str, nullable=True),
+            'Acc_Interior_Building': Column(str, nullable=True),
+            'Acc_Parking': Column(str, nullable=True),
+            'Acc_Restroom': Column(str, nullable=True),
+            'Acc_Medical_Equipment': Column(str, nullable=True),
+            'Acc_Patient_Areas': Column(str, nullable=True),
+            'Acc_Patient_Diagnostic': Column(str, nullable=True),
+            'Latitude': Column(float, nullable=True),
+            'Longitude': Column(float, nullable=True),
+            'CountyName': Column(str, nullable=True),
+        }, coerce=True),
+        'acs_5yr_estimates': DataFrameSchema({
+            'Label': Column(str, nullable=True),
+            'Value': Column(float, nullable=True),
+            'County': Column(str, nullable=True),
+        }, coerce=True),
+        'sud_recovery_facilities': DataFrameSchema({
+            'OBJECTID': Column(int, nullable=True),
+            'County_Code': Column(str, nullable=True),
+            'Legal_Entity_Name': Column(str, nullable=True),
+            'Facility_Name': Column(str, nullable=True),
+            'Facility_City': Column(str, nullable=True),
+            'Facility_State': Column(str, nullable=True),
+            'Facility_Zip': Column(str, nullable=True),
+            'Type_of_Application': Column(str, nullable=True),
+            'Program_Code': Column(str, nullable=True),
+            'Treatment_Capacity': Column(int, nullable=True),
+            'Total_Capacity': Column(int, nullable=True),
+            'Expiration_Date': Column(str, nullable=True),
+            'Target_Population': Column(str, nullable=True),
+            'Incident_Medical_Services': Column(str, nullable=True),
+            'Adolescent_Waiver': Column(str, nullable=True),
+            'Latitude': Column(float, nullable=True),
+            'Longitude': Column(float, nullable=True),
+            'CountyName': Column(str, nullable=True),
+        }, coerce=True),
+        'sud_recovery_facilities_geojson': DataFrameSchema({
+            'OBJECTID': Column(int, nullable=True),
+            'County_Code': Column(str, nullable=True),
+            'Legal_Entity_Name': Column(str, nullable=True),
+            'Facility_Name': Column(str, nullable=True),
+            'Facility_City': Column(str, nullable=True),
+            'Facility_State': Column(str, nullable=True),
+            'Facility_Zip': Column(str, nullable=True),
+            'Type_of_Application': Column(str, nullable=True),
+            'Program_Code': Column(str, nullable=True),
+            'Treatment_Capacity': Column(int, nullable=True),
+            'Total_Capacity': Column(int, nullable=True),
+            'Expiration_Date': Column(str, nullable=True),
+            'Target_Population': Column(str, nullable=True),
+            'Incident_Medical_Services': Column(str, nullable=True),
+            'Adolescent_Waiver': Column(str, nullable=True),
+            'Latitude': Column(float, nullable=True),
+            'Longitude': Column(float, nullable=True),
+            'CountyName': Column(str, nullable=True),
+        }, coerce=True),
+        'foster_care_entries_exits': DataFrameSchema({
+            'Measure number': Column(str, nullable=True),
+            'Measure description': Column(str, nullable=True),
+            'Most recent start date': Column(str, nullable=True),
+            'Most recent end date': Column(str, nullable=True),
+            'Most recent numerator': Column(int, nullable=True),
+            'Most recent denominator': Column(int, nullable=True),
+            'Most recent performance': Column(float, nullable=True),
+            'National performance or goal': Column(str, nullable=True),
+            'Desired direction': Column(str, nullable=True),
+            'Actual \none-year direction': Column(str, nullable=True),
+            'One-year percent change': Column(float, nullable=True),
+            'External Links to CCWIP Online Reports': Column(str, nullable=True),
+        }, coerce=True),
+        'nsduh': DataFrameSchema({
+            # RData: schema not implemented, recommend pyreadr
+        }),
+    }
+
+    for key, df in dfs.items():
+        # Standardize county column if present
+        if 'county' in df.columns:
+            df['county'] = df['county'].astype(str).str.title()
+        if 'CountyName' in df.columns:
+            df['CountyName'] = df['CountyName'].astype(str).str.title()
+        # Standardize zip_code column if present
+        if 'zip_code' in df.columns:
+            df['zip_code'] = df['zip_code'].astype(str).str.zfill(5)
+        if 'Facility_Zip' in df.columns:
+            df['Facility_Zip'] = df['Facility_Zip'].astype(str).str.zfill(5)
+        if 'Zip' in df.columns:
+            df['Zip'] = df['Zip'].astype(str).str.zfill(5)
+        # Standardize latitude/longitude
+        if 'Latitude' in df.columns:
+            df['Latitude'] = pd.to_numeric(df['Latitude'], errors='coerce')
+        if 'Longitude' in df.columns:
+            df['Longitude'] = pd.to_numeric(df['Longitude'], errors='coerce')
+
+        # Clean FFS provider listing
+        if key == 'ffs_providers_profile':
+            if 'County' in df.columns:
+                df['County'] = df['County'].astype(str).str.title()
+            if 'CountyName' in df.columns:
+                df['CountyName'] = df['CountyName'].astype(str).str.title()
+            if 'City' in df.columns:
+                df['City'] = df['City'].astype(str).str.title()
+            if 'ZIP' in df.columns:
+                df['ZIP'] = pd.to_numeric(df['ZIP'], errors='coerce').apply(
+                    lambda x: str(int(x)).zfill(5) if pd.notna(x) else None
+                )
+            if 'ZIP_4' in df.columns:
+                df['ZIP_4'] = pd.to_numeric(df['ZIP_4'], errors='coerce').apply(
+                    lambda x: str(int(x)).zfill(4) if pd.notna(x) else None
+                )
+            if 'Phone_Number' in df.columns:
+                df['Phone_Number'] = pd.to_numeric(df['Phone_Number'], errors='coerce').apply(
+                    lambda x: str(int(x)) if pd.notna(x) else None
+                )
+            if 'Enroll_Status_Eff_DT' in df.columns:
+                df['Enroll_Status_Eff_DT'] = pd.to_datetime(df['Enroll_Status_Eff_DT'], errors='coerce')
+            if 'Latitude' in df.columns:
+                df['Latitude'] = pd.to_numeric(df['Latitude'], errors='coerce')
+            if 'Longitude' in df.columns:
+                df['Longitude'] = pd.to_numeric(df['Longitude'], errors='coerce')
+
+        # Clean Census Decennial P1 (Calaveras County)
+        if key == 'acs_5yr_estimates':
+            if len(df.columns) >= 2:
+                label_col = df.columns[0]
+                value_col = df.columns[1]
+                county_name = str(value_col).split(',')[0].strip()
+                df = df.rename(columns={label_col: 'Label', value_col: 'Value'})
+                df['Value'] = df['Value'].astype(str).str.replace(',', '', regex=False)
+                df['Value'] = pd.to_numeric(df['Value'], errors='coerce')
+                df['County'] = county_name
+                df = df[df['Label'].notna()]
+
+        # Clean CFSR4 (CWSOutcomes)
+        if key == 'foster_care_entries_exits':
+            if 'Measure number' not in df.columns:
+                header_row = None
+                for idx, row in df.iterrows():
+                    if row.astype(str).str.contains('Measure number', case=False, na=False).any():
+                        header_row = idx
+                        break
+                if header_row is not None:
+                    df.columns = df.loc[header_row]
+                    df = df.loc[header_row + 1:].reset_index(drop=True)
+            if 'Most recent numerator' in df.columns:
+                df['Most recent numerator'] = pd.to_numeric(df['Most recent numerator'], errors='coerce')
+            if 'Most recent denominator' in df.columns:
+                df['Most recent denominator'] = pd.to_numeric(df['Most recent denominator'], errors='coerce')
+            if 'Most recent performance' in df.columns:
+                df['Most recent performance'] = pd.to_numeric(df['Most recent performance'], errors='coerce')
+
+        # Clean SUD Recovery facilities
+        if key in ('sud_recovery_facilities', 'sud_recovery_facilities_geojson'):
+            if 'County_Code' in df.columns:
+                df['County_Code'] = pd.to_numeric(df['County_Code'], errors='coerce').apply(
+                    lambda x: str(int(x)).zfill(2) if pd.notna(x) else None
+                )
+            if 'Facility_Zip' in df.columns:
+                df['Facility_Zip'] = pd.to_numeric(df['Facility_Zip'], errors='coerce').apply(
+                    lambda x: str(int(x)).zfill(5) if pd.notna(x) else None
+                )
+            if 'Expiration_Date' in df.columns:
+                df['Expiration_Date'] = pd.to_datetime(df['Expiration_Date'], errors='coerce')
+            if 'Facility_City' in df.columns:
+                df['Facility_City'] = df['Facility_City'].astype(str).str.title()
+            if 'CountyName' in df.columns:
+                df['CountyName'] = df['CountyName'].astype(str).str.title()
+
+        # Feature engineering examples
+        if key == 'sud_recovery_facilities':
+            if 'Treatment_Capacity' in df.columns and 'Total_Capacity' in df.columns:
+                df['Capacity_Utilization'] = (df['Treatment_Capacity'] / df['Total_Capacity']).round(2)
+            if 'Expiration_Date' in df.columns:
+                df['Expiration_Year'] = df['Expiration_Date'].str.extract(r'(\d{4})').astype(float)
+            # Flag large facilities
+            if 'Total_Capacity' in df.columns:
+                df['Large_Facility'] = df['Total_Capacity'] > 50
+        if key == 'foster_care_entries_exits':
+            if 'Most recent numerator' in df.columns and 'Most recent denominator' in df.columns:
+                df['Rate'] = (df['Most recent numerator'] / df['Most recent denominator']).round(4)
+            if 'One-year percent change' in df.columns:
+                df['OneYearChangeFlag'] = df['One-year percent change'].apply(lambda x: abs(x) > 0.05)
+
+        # Standardize for ffs_providers_profile
+        if key == 'ffs_providers_profile':
+            if 'County' in df.columns:
+                df['County'] = df['County'].astype(str).str.title()
+            if 'Zip' in df.columns:
+                df['Zip'] = df['Zip'].astype(str).str.zfill(5)
+        # Standardize for geojson
+        if key == 'sud_recovery_facilities_geojson':
+            if 'CountyName' in df.columns:
+                df['CountyName'] = df['CountyName'].astype(str).str.title()
+            if 'Facility_Zip' in df.columns:
+                df['Facility_Zip'] = df['Facility_Zip'].astype(str).str.zfill(5)
+            if 'Latitude' in df.columns:
+                df['Latitude'] = pd.to_numeric(df['Latitude'], errors='coerce')
+            if 'Longitude' in df.columns:
+                df['Longitude'] = pd.to_numeric(df['Longitude'], errors='coerce')
+
+        # Validate with schema if available
+        if key in schemas:
+            try:
+                df = schemas[key].validate(df, lazy=True)
+            except pa.errors.SchemaErrors as e:
+                logger.error(f"Schema validation failed for {key}: {e.failure_cases}")
+        # Dataset-specific processing hooks
+        if key in DATASET_PROCESSING:
+            notes = DATASET_PROCESSING[key].get('notes', '')
+            logger.info(f"Processing notes for {key}: {notes}")
+            # Example: custom cleaning, deduplication, suppression, etc.
+            # if key == 'some_dataset':
+            #     df = custom_cleaning_function(df)
+        dfs[key] = df
+    # Additional schemas for other datasets
+    schemas.update({
+        'behavioral_health_performance': DataFrameSchema({
+            'county': Column(str, nullable=True),
+            # Add more columns as needed
+        }, coerce=True),
+        'mhs_dashboard_adult': DataFrameSchema({
+            'county': Column(str, nullable=True),
+        }, coerce=True),
+        'mhs_dashboard_youth': DataFrameSchema({
+            'county': Column(str, nullable=True),
+        }, coerce=True),
+        'katie_a_specialty_mh': DataFrameSchema({
+            'county': Column(str, nullable=True),
+        }, coerce=True),
+        'mat_opioid_use_disorder': DataFrameSchema({
+            'county': Column(str, nullable=True),
+        }, coerce=True),
+        'narcotic_treatment_programs': DataFrameSchema({
+            'county': Column(str, nullable=True),
+        }, coerce=True),
+        'sud_recovery_facilities': DataFrameSchema({
+            'county': Column(str, nullable=True),
+        }, coerce=True),
+        'dui_provider_directory': DataFrameSchema({
+            'county': Column(str, nullable=True),
+        }, coerce=True),
+        'lanterman_petris_short': DataFrameSchema({
+            'county': Column(str, nullable=True),
+        }, coerce=True),
+        'crisis_service_utilization': DataFrameSchema({
+            'county': Column(str, nullable=True),
+        }, coerce=True),
+        'managed_care_enrollment': DataFrameSchema({
+            'county': Column(str, nullable=True),
+        }, coerce=True),
+        'certified_eligible_by_zip_sex': DataFrameSchema({
+            'zip_code': Column(str, nullable=True),
+        }, coerce=True),
+        'annual_renewals_by_county': DataFrameSchema({
+            'county': Column(str, nullable=True),
+        }, coerce=True),
+    })
+    for key, df in dfs.items():
+        # ...existing code...
+        dfs[key] = df
+    return dfs

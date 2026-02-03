@@ -1,0 +1,53 @@
+YEAR,DEMOGRAPHIC,PERCENT,SE,LOWER95,UPPER95
+2016,Male,22.7,1.1,20.5,24.9
+2016,Female,10.5,0.9,8.8,12.1
+2016,Non-Hispanic African American/Black,16.8,2.5,12,21.6
+2016,Non-Hispanic American Indian,45.7,15.9,14.6,76.9
+2016,Non-Hispanic Asian/Pacific Islander,8.5,1.3,5.9,11.1
+2016,Non-Hispanic Asian,8.7,1.4,6,11.4
+2016,Non-Hispanic Pacific Islander,*,*,*,*
+2016,Non-Hispanic White,17.8,1,15.8,19.8
+2016,Hispanic,15.7,1.3,13.1,18.2
+2016,LGBTQ,27.7,5.1,17.8,37.7
+2016,Low Income,22.5,1.7,19.2,25.8
+2016,Rural Communities,*,*,*,*
+2016,Total,16.5,0.7,15.1,17.9
+2017,Male,20.7,1.4,17.9,23.5
+2017,Female,8.7,0.7,7.4,10
+2017,Non-Hispanic African American/Black,12.6,2.2,8.3,16.9
+2017,Non-Hispanic American Indian,20.9,8,5.2,36.7
+2017,Non-Hispanic Asian/Pacific Islander,13.3,2.9,7.7,18.9
+2017,Non-Hispanic Asian,13.2,3,7.4,19
+2017,Non-Hispanic Pacific Islander,*,*,*,*
+2017,Non-Hispanic White,15.7,1.2,13.4,18
+2017,Hispanic,13.6,1.4,10.8,16.4
+2017,LGBTQ,23.6,3.8,16.1,31.2
+2017,Low Income,17.6,1.4,14.9,20.2
+2017,Rural Communities,25.6,5.9,14,37.2
+2017,Total,14.6,0.8,13.1,16.2
+2018,Male,19.2,1.2,16.9,21.4
+2018,Female,9.3,1,7.4,11.2
+2018,Non-Hispanic African American/Black,14.4,3.6,7.4,21.4
+2018,Non-Hispanic American Indian,25.7,7.8,10.5,41
+2018,Non-Hispanic Asian/Pacific Islander,12.3,2.6,7.3,17.4
+2018,Non-Hispanic Asian,9.9,1.9,6.1,13.8
+2018,Non-Hispanic Pacific Islander,*,*,*,*
+2018,Non-Hispanic White,14.4,1,12.4,16.4
+2018,Hispanic,13.4,1.4,10.7,16.1
+2018,LGBTQ,22.9,5.4,12.4,33.4
+2018,Low Income,18.3,1.5,15.3,21.2
+2018,Rural Communities,8.7,2.8,3.2,14.2
+2018,Total,14.1,0.8,12.7,15.6
+2019,Male,17.8,1.4,15,20.6
+2019,Female,8.5,0.7,7.2,9.9
+2019,Non-Hispanic African American/Black,14.6,2.7,9.4,19.8
+2019,Non-Hispanic American Indian,20.3,8.2,4.4,36.3
+2019,Non-Hispanic Asian/Pacific Islander,11.2,4,3.2,19.1
+2019,Non-Hispanic Asian,11.4,4.2,3.1,19.7
+2019,Non-Hispanic Pacific Islander,*,*,*,*
+2019,Non-Hispanic White,13.2,1,11.2,15.1
+2019,Hispanic,12.6,1.2,10.2,14.9
+2019,LGBTQ,13.9,2.9,8.1,19.6
+2019,Low Income,17.6,1.9,13.9,21.4
+2019,Rural Communities,24.2,5.7,13.1,35.4
+2019,Total,13.1,0.8,11.6,14.7

@@ -1,0 +1,155 @@
+{
+  "accrual_periodicity": "other",
+  "additional_limitations": "",
+  "citation": "",
+  "contact_email": "opendata@dhcs.ca.gov ",
+  "data_collection_tool": "",
+  "data_license": "Terms of Use",
+  "de_identification_method": "http://www.dhcs.ca.gov/dataandstats/Pages/PublicReportingGuidelines.aspx",
+  "description": "Medi-Cal claims for persons receiving medication-assisted treatment for opioid use disorders are unduplicated by medication. Methadone program participation is identified from claims submitted by the counties. Buprenorphine  and naltrexone pharmacy claims are those used for treating opioid use disorders. Naloxone pharmacy claims are those dispensed as a first aid item (injectables and nasal sprays). The county source is taken from submitted claims.",
+  "geo_coverage": "California",
+  "geographic_granularity": "county",
+  "keywords": [
+    "DHCS",
+    "MAT",
+    "buprenorphine",
+    "methadone",
+    "naloxone",
+    "opioids",
+    "substance use disorders"
+  ],
+  "limitations": "Limitations",
+  "name": "medication-assisted-treatment-in-medi-cal-for-opioid-use-disorders-quarterly-by-county",
+  "program_web_page": "dhcs.ca.gov",
+  "related_resources": "",
+  "resources": [
+    {
+      "description": "Quarterly Medi-Cal claims for persons receiving medication-assisted treatment for opioid use disorders are unduplicated by medication for CA Counties. Methadone program participation is identified from claims submitted by the counties. Buprenorphine and naltrexone pharmacy claims are those used for treating opioid use disorders. Naloxone pharmacy claims are those dispensed as a first aid item (injectables and nasal sprays). The county source is taken from submitted claims. ",
+      "format": "CSV",
+      "hash": "1166930d9f7c5a4b7ab098fb43ef3eda",
+      "name": "medication-assisted-treatment-in-medi-cal-for-opioid-use-disorders-quarterly-by-county",
+      "path": "medication-assisted-treatment-in-medi-cal-for-opioid-use-disorders-quarterly-by-county.csv",
+      "schema": {
+        "fields": [
+          {
+            "description": "County listed on the claim",
+            "name": "County",
+            "title": "County",
+            "type": "string"
+          },
+          {
+            "description": "Year treatment was received",
+            "name": "Year",
+            "title": "Year",
+            "type": "string"
+          },
+          {
+            "description": "Quarter in which treatment was received",
+            "name": "Quarter",
+            "title": "Quarter",
+            "type": "string"
+          },
+          {
+            "description": "methadone, buprenorphine, naltrexone and/or naloxone counted once per quarter",
+            "name": "Medication_Assisted_Treatment",
+            "title": "MAT",
+            "type": "string"
+          },
+          {
+            "name": "members",
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "type": "string"
+          },
+          {
+            "name": "annotation",
+            "type": "string"
+          },
+          {
+            "name": "annotation_description",
+            "type": "string"
+          },
+          {
+            "name": "Date_of_Data",
+            "type": "string"
+          },
+          {
+            "name": "CDO Approval Number",
+            "type": "string"
+          }
+        ]
+      },
+      "sources": [
+        {
+          "path": "https://data.chhs.ca.gov/dataset/8329a339-ab77-4d05-ab7a-405d0ae5765c/resource/273da014-fb02-40f1-baa3-93d1b920b3d8/download/mat-for-opioid-use-quarterly-2010-2025.csv",
+          "title": "Medication-Assisted Treatment in Medi-Cal for Opioid Use Disorders, Quarterly by County"
+        }
+      ],
+      "title": "Medication-Assisted Treatment in Medi-Cal for Opioid Use Disorders, Quarterly by County"
+    },
+    {
+      "description": "Annual Medi-Cal claims for persons receiving medication-assisted treatment for opioid use disorders are unduplicated by medication for CA counties. Methadone program participation is identified from claims submitted by the counties. Buprenorphine and naltrexone pharmacy claims are those used for treating opioid use disorders. Naloxone pharmacy claims are those dispensed as a first aid item (injectables and nasal sprays). ",
+      "format": "CSV",
+      "hash": "916835ea58bc67f7da232d79a8631cc7",
+      "name": "medication-assisted-treatment-in-medi-cal-for-opioid-use-disorders-annually",
+      "path": "medication-assisted-treatment-in-medi-cal-for-opioid-use-disorders-annually.csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "County",
+            "type": "string"
+          },
+          {
+            "name": "Year",
+            "type": "string"
+          },
+          {
+            "name": "Medication_Assisted_Treatment",
+            "type": "string"
+          },
+          {
+            "name": "members",
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "type": "string"
+          },
+          {
+            "name": "annotation",
+            "type": "string"
+          },
+          {
+            "name": "annotation_description",
+            "type": "string"
+          },
+          {
+            "name": "Date_of_Data",
+            "type": "string"
+          },
+          {
+            "name": "CDO Approval Number",
+            "type": "string"
+          }
+        ]
+      },
+      "sources": [
+        {
+          "path": "https://data.chhs.ca.gov/dataset/8329a339-ab77-4d05-ab7a-405d0ae5765c/resource/bf66ffea-8f37-4553-8829-4bf9286e7802/download/mat-for-opioid-use-annual-dec2025.csv",
+          "title": "Medication-Assisted Treatment in Medi-Cal for Opioid Use Disorders, Annually"
+        }
+      ],
+      "title": "Medication-Assisted Treatment in Medi-Cal for Opioid Use Disorders, Annually"
+    }
+  ],
+  "secondary_sources": "",
+  "sources": [
+    {
+      "name": "Data Analytics Division / Data Science Branch"
+    }
+  ],
+  "temporal_coverage": "* 2010 through 2025 Q2 for Quarterly Reports\r\n* 2010 through 2024 for Annual Reports",
+  "title": "Medication-Assisted Treatment in Medi-Cal for Opioid Use Disorders, by County"
+}

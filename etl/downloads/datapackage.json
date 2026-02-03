@@ -1,0 +1,154 @@
+{
+  "accrual_periodicity": "other",
+  "additional_limitations": "",
+  "citation": "",
+  "contact_email": "opendata@chhs.ca.gov",
+  "data_collection_tool": "",
+  "data_license": "Terms of Use",
+  "de_identification_method": "",
+  "description": "This dataset is a catalog of all the datasets available on the CalHHS Open Data Portal. Each item in the catalog represents a dataset and includes the associated metadata and additional information.",
+  "geo_coverage": "",
+  "geographic_granularity": "other",
+  "keywords": [
+    "Catalog",
+    "Inventory"
+  ],
+  "limitations": "Limitations",
+  "name": "dataset-catalog",
+  "program_web_page": "opendata@chhs.ca.gov",
+  "related_resources": "",
+  "resources": [
+    {
+      "description": "This dataset is a catalog of all the datasets available on the CHHS Open Data Portal. Each item in the catalog represents a dataset and includes the associated metadata and additional information.",
+      "name": "dataset-catalog",
+      "path": "dataset-catalog",
+      "schema": {
+        "fields": [
+          {
+            "name": "Title",
+            "type": "string"
+          },
+          {
+            "name": "Description",
+            "type": "string"
+          },
+          {
+            "name": "Department",
+            "type": "string"
+          },
+          {
+            "name": "Program",
+            "type": "string"
+          },
+          {
+            "name": "Contact Email",
+            "type": "string"
+          },
+          {
+            "name": "Homepage URL",
+            "type": "string"
+          },
+          {
+            "name": "Temporal Coverage",
+            "type": "string"
+          },
+          {
+            "name": "Spatial/Geographic Coverage",
+            "type": "string"
+          },
+          {
+            "name": "Geographic Granularity",
+            "type": "string"
+          },
+          {
+            "name": "Language",
+            "type": "string"
+          },
+          {
+            "name": "Frequency",
+            "type": "string"
+          },
+          {
+            "name": "De-Identification Method",
+            "type": "string"
+          },
+          {
+            "name": "Source Link",
+            "type": "string"
+          },
+          {
+            "name": "Data Collection Tool",
+            "type": "string"
+          },
+          {
+            "name": "License",
+            "type": "string"
+          },
+          {
+            "name": "Limitations",
+            "type": "string"
+          },
+          {
+            "name": "Additional Limitations",
+            "type": "string"
+          },
+          {
+            "name": "Additional Information",
+            "type": "string"
+          },
+          {
+            "name": "Related Resources",
+            "type": "string"
+          },
+          {
+            "name": "Secondary Sources",
+            "type": "string"
+          },
+          {
+            "name": "Citation",
+            "type": "string"
+          },
+          {
+            "name": "Created",
+            "type": "string"
+          },
+          {
+            "name": "Last Updated",
+            "type": "string"
+          },
+          {
+            "name": "Topic",
+            "type": "string"
+          },
+          {
+            "name": "Tags",
+            "type": "string"
+          },
+          {
+            "name": "Dataset URL",
+            "type": "string"
+          },
+          {
+            "name": "Dataset ID",
+            "type": "string"
+          }
+        ]
+      },
+      "sources": [
+        {
+          "path": "https://data.chhs.ca.gov/datastore/dump/354ec4a0-5176-415c-b491-c0efbe0d257a",
+          "title": "Dataset Catalog"
+        }
+      ],
+      "title": "Dataset Catalog"
+    }
+  ],
+  "secondary_sources": "",
+  "sources": [
+    {
+      "name": "CalHHS"
+    }
+  ],
+  "temporal_coverage": "present",
+  "title": "CalHHS Dataset Catalog"
+}
